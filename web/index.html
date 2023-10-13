@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossout BattlePass Calculator v1.0</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body class="container">
+    <h1 class="mt-5">Crossout BattlePass Calculator v1.0</h1>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <b>Какой уровень и сколько подшипников у меня будет через X дней от начала БП?</b>
+        </div>
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <input type="number" id="dayInput" class="form-control" placeholder="Количество дней с начала БП">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="calculateLevelByDay()">Рассчитать уровень</button>
+                </div>
+            </div>
+            <div id="result1"></div>
+        </div>
+    </div>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <b>Сколько подшипников будет на X уровне?</b>
+        </div>
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <input type="number" id="levelInput" class="form-control" placeholder="Уровень БП">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="calculateBearingByLevel()">Сколько подшипников
+                        получу?</button>
+                </div>
+            </div>
+            <div id="result2"></div>
+        </div>
+    </div>
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <b>Сколько уровней нужно для X подшипников?</b>
+        </div>
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <input type="number" id="bearingInput" class="form-control"
+                    placeholder="Необходимое количество подшипников">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="calculateLevelForBearing()">На каком уровне
+                        получу?</button>
+                </div>
+            </div>
+            <div id="result3"></div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
