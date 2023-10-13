@@ -3,7 +3,7 @@ function calculateLevelByDay() {
   const result = levelByDay(day);
   document.getElementById(
     "result1"
-  ).textContent = `Уровень механиков: ${result}`;
+  ).textContent = `За ${day} дней ты прокачаешь ${result} уровней механиков`;
 }
 
 function calculateBearingByLevel() {
@@ -11,19 +11,21 @@ function calculateBearingByLevel() {
   const result = bearingByLevel(level);
   document.getElementById(
     "result2"
-  ).textContent = `Количество подшипников: ${result}`;
+  ).textContent = `На ${level} уровне ты получишь ${result} подшипников`;
 }
 
 function calculateLevelForBearing() {
   const needBearing = parseInt(document.getElementById("bearingInput").value);
   const result = levelForBearing(needBearing);
+  const score = result * 5000;
+  const weeks = Math.ceil(score / 35500);
   if (result === -1) {
     document.getElementById("result3").textContent =
       "Не удалось достичь нужного количества подшипников.";
   } else {
     document.getElementById(
       "result3"
-    ).textContent = `Уровень для ${needBearing} подшипников: ${result}`;
+    ).textContent = `${needBearing} подшипников можно получить на ${result} уровне или через ${weeks} недель`;
   }
 }
 function levelByDay(day) {
