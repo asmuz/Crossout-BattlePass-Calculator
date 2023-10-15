@@ -1,17 +1,20 @@
 function calculateLevelByDay() {
   const day = parseInt(document.getElementById("dayInput").value);
-  const result = levelByDay(day);
+  const level = levelByDay(day);
+  const bearing = bearingByLevel(level);
   document.getElementById(
     "result1"
-  ).textContent = `За ${day} дней ты прокачаешь ${result} уровней механиков`;
+  ).textContent = `За ${day} дней ты прокачаешь ${level} уровней БП и получишь ${bearing} подшипников`;
 }
 
 function calculateBearingByLevel() {
   const level = parseInt(document.getElementById("levelInput").value);
   const result = bearingByLevel(level);
+  const score = level * 5000;
+  const weeks = Math.ceil(score / 35500);
   document.getElementById(
     "result2"
-  ).textContent = `На ${level} уровне ты получишь ${result} подшипников`;
+  ).textContent = `На ${level} уровне, через ${weeks} недель, ты получишь ${result} подшипников`;
 }
 
 function calculateLevelForBearing() {
