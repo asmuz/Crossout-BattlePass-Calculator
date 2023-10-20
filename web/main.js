@@ -102,7 +102,6 @@ function resourcesByLevel(level) {
     122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 134, 135, 136, 137,
     138, 139, 140,
   ];
-
   // Количество подшипников
   const VALUES = [
     50, 40, 75, 50, 75, 100, 60, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
@@ -110,28 +109,32 @@ function resourcesByLevel(level) {
     200, 15, 15, 15, 15, 200, 15, 15, 15, 15, 15, 15, 15, 15, 200,
   ];
 
+  const RESOURCES_SUM = VALUES.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
+  console.log(RESOURCES_SUM);
   count = 0;
   index = 0;
-
+  if (level > MAX_LEVEL) {
+    count = RESOURCES_SUM + (level - MAX_LEVEL) * ADD_LEVEL_SCORE;
+    return count;
+  }
   while (LEVELS[index] <= level && index <= LEVELS.length - 1) {
     count += VALUES[index];
     index++;
   }
-
-  if (level > MAX_LEVEL) {
-    count += (level - MAX_LEVEL) * ADD_LEVEL_SCORE;
-  }
-
   return count;
 }
 
 function levelForResources(need) {
-  for (level = 0; level < 1000; level++) {
+  resources = 0;
+  level = 0;
+  while (resources < need) {
+    level++;
     resources = resourcesByLevel(level);
-    if (resources >= need) {
-      return level;
-    }
   }
+  return level;
 }
 
 function daysForLevel(level) {
