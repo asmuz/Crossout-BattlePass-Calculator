@@ -9,6 +9,7 @@ const LEVEL_SCORE = 5000; // количество очков за 1 уровен
 
 const MAX_LEVEL = 140; // максимальный уровень основного БП
 const ADD_LEVEL_SCORE = 15; // награда за дополнительные уровни БП
+const MAX_LEVEL_BY_SCORE = 120; // максимальный уровень прокачки БП за задания
 
 const WEEKLY_SCORE =
   WEEKLY_REWARD * WEEKLY_REWARD_Q +
@@ -19,6 +20,36 @@ const FIRST_DAY_SCORE =
   WEEKLY_REWARD * WEEKLY_REWARD_Q +
   WEEKLY_REWARD_ADD * WEEKLY_REWARD_ADD_Q +
   DAILY_SCORE;
+
+function paidLevel() {
+  const levels = document.getElementById("paid_bp");
+  return Number(levels.elements["buy"].value);
+}
+
+function howManyBuy(needLevel) {
+  maxLevel = MAX_LEVEL_BY_SCORE + paidLevel();
+  needBuy = needLevel - maxLevel;
+  if (needBuy > 0) return needBuy;
+  else return 0;
+}
+
+function calculateByResources() {
+  inputResources = parseInt(document.getElementById("inputResources").value);
+  level = levelForResources(inputResources);
+  needBuy = howManyBuy(level);
+  days = daysForLevel(level - paidLevel());
+  weeks = Math.floor(days / 7);
+  day = days - weeks * 7;
+  if (!isNaN(inputResources)) {
+    document.getElementById(
+      "result-title"
+    ).textContent = `${inputResources} подшипников`;
+    document.getElementById(
+      "result-body"
+    ).textContent = `Можно получить на ${level} уровне или через ${days} дн. (${weeks} нед. и ${day} дн.). Придётся докупить ${needBuy} уровней`;
+    UIkit.modal("#modal-result").show();
+  }
+}
 
 function calculateByLevel() {
   inputLevel = parseInt(document.getElementById("inputLevel").value);
@@ -38,9 +69,19 @@ function calculateByLevel() {
 }
 
 function calculateByDay() {
+  paid = paidLevel();
+  if (paid == 0) {
+    bpType = "Без покупки";
+  }
+  if (paid == 1) {
+    bpType = "С ОБЫЧНЫМ";
+  }
+  if (paid == 15) {
+    bpType = "С ЭЛИТНЫМ";
+  }
   inputDay = parseInt(document.getElementById("inputDay").value);
   score = scoreByDay(inputDay);
-  level = levelByScore(score);
+  level = levelByScore(score) + paid;
   resources = resourcesByLevel(level);
   weeks = Math.floor(inputDay / 7);
   day = inputDay - weeks * 7;
@@ -51,28 +92,12 @@ function calculateByDay() {
     ).textContent = `За ${inputDay} дней (${weeks} нед. и ${day} дн.):`;
     document.getElementById(
       "result-body"
-    ).textContent = `Ты прокачаешь ${level} уровней БП и получишь ${resources} подшипников`;
+    ).textContent = `${bpType} БП ты прокачаешь ${level} уровней и получишь ${resources} подшипников`;
     UIkit.modal("#modal-result").show();
   }
 }
 
-function calculateByResources() {
-  inputResources = parseInt(document.getElementById("inputResources").value);
-  level = levelForResources(inputResources);
-  days = daysForLevel(level);
-  weeks = Math.floor(days / 7);
-  day = days - weeks * 7;
-  if (!isNaN(inputResources)) {
-    document.getElementById(
-      "result-title"
-    ).textContent = `${inputResources} подшипников`;
-    document.getElementById(
-      "result-body"
-    ).textContent = `Можно получить на ${level} уровне или через ${days} дн. (${weeks} нед. и ${day} дн.)`;
-    UIkit.modal("#modal-result").show();
-  }
-}
-
+// количество очков опыта через определенное количество дней
 function scoreByDay(days) {
   if (days > DURATION) {
     days = DURATION;
@@ -89,11 +114,13 @@ function scoreByDay(days) {
   return score;
 }
 
+// какой уровень будет при получении определенного количества опыта
 function levelByScore(score) {
   level = Math.floor(score / LEVEL_SCORE);
   return level;
 }
 
+// сколько ресурсов будет на определенном уровне
 function resourcesByLevel(level) {
   // Уровни, на которых выдаются подшипники
   const LEVELS = [
@@ -109,11 +136,11 @@ function resourcesByLevel(level) {
     200, 15, 15, 15, 15, 200, 15, 15, 15, 15, 15, 15, 15, 15, 200,
   ];
 
+  // общее количество ресурсов основного БП
   const RESOURCES_SUM = VALUES.reduce(
     (accumulator, currentValue) => accumulator + currentValue,
     0
   );
-  console.log(RESOURCES_SUM);
   count = 0;
   index = 0;
   if (level > MAX_LEVEL) {
@@ -127,6 +154,7 @@ function resourcesByLevel(level) {
   return count;
 }
 
+// сколько уровней нужно для получения нужного количества ресурсов
 function levelForResources(need) {
   resources = 0;
   level = 0;
@@ -137,6 +165,7 @@ function levelForResources(need) {
   return level;
 }
 
+// сколько дней нужно для прокачки нужного уровня
 function daysForLevel(level) {
   score = level * LEVEL_SCORE;
   fullWeeks = Math.floor(score / WEEKLY_SCORE);
