@@ -1,45 +1,56 @@
-function calculateLevelByDay() {
-  const day = parseInt(document.getElementById("dayInput").value);
-  const level = levelByDay(day);
-  const bearing = bearingByLevel(level);
+function calculateByLevel() {
+  inputLevel = parseInt(document.getElementById("inputLevel").value);
+  bearing = bearingByLevel(inputLevel);
+  days = daysForLevel(inputLevel);
+  weeks = Math.floor(days / 7);
+  day = days - weeks * 7;
   document.getElementById(
-    "result1"
-  ).textContent = `За ${day} дней ты прокачаешь ${level} уровней БП и получишь ${bearing} подшипников`;
+    "resultLevel"
+  ).textContent = `${inputLevel} уровней БП можно прокачать за ${days} дн. (${weeks} нед. и ${day} дн.) и получить ${bearing} подшипников`;
 }
 
-function calculateBearingByLevel() {
-  const level = parseInt(document.getElementById("levelInput").value);
-  const result = bearingByLevel(level);
-  const score = level * 5000;
-  const weeks = Math.ceil(score / 35500);
+function calculateByDay() {
+  inputDay = parseInt(document.getElementById("inputDay").value);
+  score = scoreByDay(inputDay);
+  level = levelByScore(score);
+  bearing = bearingByLevel(level);
+  weeks = Math.floor(inputDay / 7);
+  day = inputDay - weeks * 7;
   document.getElementById(
-    "result2"
-  ).textContent = `На ${level} уровне, через ${weeks} недель, ты получишь ${result} подшипников`;
+    "resultDay"
+  ).textContent = `За ${inputDay} дн. (${weeks} нед. и ${day} дн.) ты прокачаешь ${level} уровней БП и получишь ${bearing} подшипников`;
 }
 
-function calculateLevelForBearing() {
-  const needBearing = parseInt(document.getElementById("bearingInput").value);
-  const result = levelForBearing(needBearing);
-  const score = result * 5000;
-  const weeks = Math.ceil(score / 35500);
-  if (result === -1) {
-    document.getElementById("result3").textContent =
-      "Не удалось достичь нужного количества подшипников.";
-  } else {
-    document.getElementById(
-      "result3"
-    ).textContent = `${needBearing} подшипников можно получить на ${result} уровне или через ${weeks} недель`;
-  }
+function calculateByBearing() {
+  inputBearing = parseInt(document.getElementById("inputBearing").value);
+  level = levelForBearing(inputBearing);
+  days = daysForLevel(level);
+  weeks = Math.floor(days / 7);
+  day = days - weeks * 7;
+
+  document.getElementById(
+    "resultBearing"
+  ).textContent = `${inputBearing} подшипников можно получить на ${level} уровне или через ${days} дн. (${weeks} нед. и ${day} дн.)`;
 }
-function levelByDay(day) {
-  if (day > 119) {
-    day = 119;
+
+function scoreByDay(days) {
+  if (days > 119) {
+    days = 119;
   }
-  const week = Math.floor(day / 7) + 1;
-  const score_w = week * 25000;
-  const score_d = day * 1500;
-  const score = score_w + score_d;
-  const level = Math.floor(score / 5000);
+  score = 0;
+  weeks = Math.floor(days / 7);
+  score += weeks * 35500;
+  days -= weeks * 7;
+  if (days >= 1) {
+    score += 26500;
+    days--;
+  }
+  score += days * 1500;
+  return score;
+}
+
+function levelByScore(score) {
+  level = Math.floor(score / 5000);
   return level;
 }
 
@@ -55,14 +66,14 @@ function bearingByLevel(level) {
   // Количество подшипников
   const b_value = [
     50, 40, 75, 50, 75, 100, 60, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
-    15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 100, 15, 15, 15, 15, 200,
-    15, 15, 15, 15, 200, 15, 15, 15, 15, 15, 15, 15, 15, 200,
+    15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 100, 15, 15, 15, 15,
+    200, 15, 15, 15, 15, 200, 15, 15, 15, 15, 15, 15, 15, 15, 200,
   ];
 
   let countBearings = 0;
   let index = 0;
 
-  while (b_level[index] <= level && index < b_level.length - 1) {
+  while (b_level[index] <= level && index <= b_level.length - 1) {
     countBearings += b_value[index];
     index++;
   }
@@ -76,10 +87,25 @@ function bearingByLevel(level) {
 
 function levelForBearing(needBearing) {
   for (let level = 0; level < 1000; level++) {
-    const bearings = bearingByLevel(level);
+    bearings = bearingByLevel(level);
     if (bearings >= needBearing) {
       return level;
     }
   }
-  return -1; // Вернуть -1, если нужное количество подшипников недостижимо.
+}
+
+function daysForLevel(level) {
+  score = level * 5000;
+  fullWeeks = Math.floor(score / 35500);
+  days = fullWeeks * 7;
+  fullWeekScore = fullWeeks * 35500;
+  score = score - fullWeekScore;
+  if (score > 0) {
+    score = score - 26500;
+    days++;
+  }
+  if (score > 0) {
+    days = days + Math.ceil(score / 1500);
+  }
+  return days;
 }
