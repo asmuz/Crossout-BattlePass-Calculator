@@ -23,39 +23,7 @@ const FIRST_DAY_SCORE =
 
 function paidLevel() {
   const levels = document.getElementById("paid_bp");
-  n = Number(levels.elements["buy"].value);
-  //console.log(n);
-  return n;
-}
-
-function calculateMaxLevel() {
-  miss = parseInt(document.getElementById("inputMissdays").value);
-  paid = paidLevel();
-  if (paid == 0) {
-    bpType = "Без покупки";
-  }
-  if (paid == 1) {
-    bpType = "С простым";
-  }
-  if (paid == 15) {
-    bpType = "С элитным";
-  }
-  score = scoreByDay(DURATION) - miss * DAILY_SCORE;
-  level = levelByScore(score) + paid;
-  resources = resourcesByLevel(level);
-
-  if (miss > 0) {
-    document.getElementById(
-      "result-1"
-    ).innerHTML = `Пропустив <b>${miss}</b> дней`;
-  }
-  document.getElementById("result-2").innerHTML = `<b>${bpType} БП</b>`;
-  document.getElementById(
-    "result-3"
-  ).innerHTML = `ты прокачаешь <b>${level}</b> уровней`;
-  document.getElementById(
-    "result-4"
-  ).innerHTML = `и получишь <b>${resources}</b> подшипников`;
+  return Number(levels.elements["buy"].value);
 }
 
 function howManyBuy(needLevel) {
@@ -186,7 +154,7 @@ function resourcesByLevel(level) {
   return count;
 }
 
-// количество уровней для получения нужного количества ресурсов
+// сколько уровней нужно для получения нужного количества ресурсов
 function levelForResources(need) {
   resources = 0;
   level = 0;
@@ -197,7 +165,7 @@ function levelForResources(need) {
   return level;
 }
 
-// количество дней для прокачки нужного уровня
+// сколько дней нужно для прокачки нужного уровня
 function daysForLevel(level) {
   score = level * LEVEL_SCORE;
   fullWeeks = Math.floor(score / WEEKLY_SCORE);
