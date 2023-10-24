@@ -1,5 +1,4 @@
 /* Инициация основных переменных */
-const START_DATE = "10/12/2023";
 const DURATION = 119; // продолжительность дней БП
 const WEEKLY_REWARD = 4000; // очки основного еженедельньного задания
 const WEEKLY_REWARD_Q = 4; // количество основных еженедельных заданий
@@ -22,127 +21,10 @@ const FIRST_DAY_SCORE =
   WEEKLY_REWARD_ADD * WEEKLY_REWARD_ADD_Q +
   DAILY_SCORE;
 
-function start() {
-  days = today();
-  if (days > DURATION) {
-    document.getElementById("todayIs").innerHTML = `БП закончился`;
-  } else {
-    document.getElementById("inputLeftDays").value = days;
-    document.getElementById("range-inputLeftDays").value = days;
-    document.getElementById("inputMissDays").value = 0;
-    document.getElementById("range-inputMissDays").value = 0;
-    document.getElementById("result-needBuy").innerHTML = ``;
-    onchangeDay();
-    document.getElementById(
-      "result-todayIs"
-    ).innerHTML = `<b>${days}</b> дней с начала БП`;
-    document.getElementById("result-daysLeft").innerHTML = `<b>${
-      DURATION - days
-    }</b> дней осталось`;
-  }
-}
-
-function onchangeDay() {
-  paid = paidLevel();
-  inputDay = parseInt(document.getElementById("inputLeftDays").value);
-  inputMissDay = parseInt(document.getElementById("inputMissDays").value);
-  if (inputMissDay < 0) {
-    inputMissDay = 0;
-  }
-  if (inputMissDay >= inputDay) {
-    document.getElementById("range-inputMissDays").max = inputDay;
-    document.getElementById("range-inputMissDays").value = inputDay;
-    document.getElementById("inputMissDays").value = inputDay;
-  }
-  score = scoreByDay(inputDay) - inputMissDay * DAILY_SCORE;
-  level = levelByScore(score) + paid;
-  resources = resourcesByLevel(level);
-  weeks = Math.floor(inputDay / 7);
-  day = inputDay - weeks * 7;
-  document.getElementById("range-inputMissDays").max = inputDay;
-  document.getElementById("result-score").innerHTML = `<b>${score}</b> очков`;
-  document.getElementById("inputLevel").value = level;
-  document.getElementById("range-inputLevel").value = level;
-  document.getElementById("result-level").innerHTML = `<b>${level}</b> уровень`;
-  document.getElementById("inputResources").value = resources;
-  document.getElementById("range-inputResources").value = resources;
-  document.getElementById(
-    "result-todayIs"
-  ).innerHTML = `<b>${inputDay}</b> дней с начала БП`;
-  document.getElementById("result-daysLeft").innerHTML = `<b>${
-    DURATION - inputDay
-  }</b> дней осталось`;
-  if (inputMissDay > 0) {
-    document.getElementById(
-      "result-daysMiss"
-    ).innerHTML = `<b>${inputMissDay}</b> дней пропущено`;
-  }
-  if (inputMissDay <= 0) {
-    document.getElementById("result-daysMiss").innerHTML = ``;
-  }
-}
-
-function onchangeMissDay() {
-  onchangeDay();
-}
-
-function onchangeLevel() {
-  inputLevel = parseInt(document.getElementById("inputLevel").value);
-  resources = resourcesByLevel(inputLevel);
-  days = daysForLevel(inputLevel);
-  weeks = Math.floor(days / 7);
-  day = days - weeks * 7;
-  document.getElementById("inputLeftDays").value = days;
-  document.getElementById("range-inputLeftDays").value = days;
-  document.getElementById("inputResources").value = resources;
-  document.getElementById("range-inputResources").value = resources;
-  onchangeDay();
-}
-
-function onchangeResources() {
-  inputResources = parseInt(document.getElementById("inputResources").value);
-  level = levelForResources(inputResources);
-  needBuy = howManyBuy(level);
-  //days = daysForLevel(level - paidLevel());
-  days = daysForLevel(level);
-  weeks = Math.floor(days / 7);
-  day = days - weeks * 7;
-  document.getElementById("inputLeftDays").value = days;
-  document.getElementById("range-inputLeftDays").value = days;
-  document.getElementById("inputLevel").value = level;
-  document.getElementById("range-inputLevel").value = level;
-  document.getElementById("inputResources").value = resources;
-  document.getElementById("range-inputResources").value = resources;
-  if (needBuy <= 0) {
-    document.getElementById("result-needBuy").innerHTML = ``;
-  } else if (needBuy > 0) {
-    document.getElementById(
-      "result-needBuy"
-    ).innerHTML = `<b>${needBuy}</b> уровней нужно докупить`;
-  }
-}
-
 function paidLevel() {
   const levels = document.getElementById("paid_bp");
   n = Number(levels.elements["buy"].value);
   return n;
-}
-
-function today() {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
-  today = mm + "/" + dd + "/" + yyyy;
-  const date1 = new Date(START_DATE);
-  const date2 = new Date(today);
-  // One day in milliseconds
-  const oneDay = 1000 * 60 * 60 * 24;
-  // Calculating the time difference between two dates
-  const diffInTime = date2.getTime() - date1.getTime();
-  // Calculating the no. of days between two dates
-  const diffInDays = Math.round(diffInTime / oneDay);
-  return diffInDays + 1;
 }
 
 function calculateMaxLevel() {

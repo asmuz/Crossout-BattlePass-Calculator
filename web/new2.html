@@ -39,70 +39,61 @@
                     </div>
                 </div>
             </form>
-            <ul uk-accordion class="uk-card uk-card-default uk-card-small uk-card-body">
-                <li>
-                    <a onclick="calculateMaxLevel();" class="uk-accordion-title" href><span class="uk-text-large">Что я
-                            смогу получить к концу
-                            БП?</span></a>
-                    <div class="uk-accordion-content">
-                        <div class="uk-margin" uk-grid>
-                            <div class="uk-width-1-2">
-                                <div class="uk-form-horizontal uk-margin-large">
-                                    <label class="uk-form-label" for="form-horizontal-text">Сколько дней
-                                        пропущено?</label>
-                                    <div class="uk-form-controls">
-                                        <input value=0 type="number" id="inputMissdays"
-                                            class="uk-input uk-form-width-1-1" placeholder="Количество дней"
-                                            onchange="calculateMaxLevel()">
-                                        <input id="range" class="uk-range uk-width-1-1" type="range" value="0" min="0"
-                                            max="119" step="1"
-                                            oninput="document.getElementById('inputMissdays').value = this.value; calculateMaxLevel()">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="uk-width-1-2">
-                                <div class="uk-background-muted uk-padding uk-text-large">
-                                    <div id="a-result-1"></div>
-                                    <div id="a-result-2"></div>
-                                    <div id="a-result-3"></div>
-                                    <div id="a-result-4"></div>
+            <div>
+                <a onclick="calculateMaxLevel();" class="uk-accordion-title" href><span class="uk-text-large">Что я
+                        смогу получить к концу
+                        БП?</span></a>
+                <div class="uk-accordion-content">
+                    <div class="uk-margin" uk-grid>
+                        <div class="uk-width-1-2">
+                            <div class="uk-form-horizontal uk-margin-large">
+                                <label class="uk-form-label" for="form-horizontal-text">Сколько дней
+                                    пропущено?</label>
+                                <div class="uk-form-controls">
+                                    <input value=0 type="number" id="inputMissdays" class="uk-input uk-form-width-1-1"
+                                        placeholder="Количество дней" onchange="calculateMaxLevel()">
+                                    <input id="range" class="uk-range uk-width-1-1" type="range" value="0" min="0"
+                                        max="119" step="1"
+                                        oninput="document.getElementById('inputMissdays').value = this.value; calculateMaxLevel()">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <a onclick="calculateByResources();" class="uk-accordion-title" href><span class="uk-text-large">
-                            Когда получу нужное количество подшипников?
-                        </span></a>
-                    <div class="uk-accordion-content">
-                        <div class="uk-margin" uk-grid>
-                            <div class="uk-width-1-2">
-                                <input value=0 type="number" id="inputResources" class="uk-input uk-width-1-1"
-                                    placeholder="Нужное количество подшипников" onchange="calculateByResources()">
-                                <input id="range2" class="uk-range uk-width-1-1" type="range" value="0" min="0"
-                                    max="2600" step="5"
-                                    oninput="document.getElementById('inputResources').value = this.value; calculateByResources()">
-                            </div>
-                            <div class="uk-width-1-2">
-                                <div class="uk-background-muted uk-padding uk-text-large">
-                                    <div id="b-result-1"></div>
-                                    <div id="b-result-2"></div>
-                                    <div id="b-result-3"></div>
-                                    <div id="b-result-4"></div>
-                                </div>
+                        <div class="uk-width-1-2">
+                            <div class="uk-background-muted uk-padding uk-text-large">
+                                <div id="a-result-1"></div>
+                                <div id="a-result-2"></div>
+                                <div id="a-result-3"></div>
+                                <div id="a-result-4"></div>
                             </div>
                         </div>
                     </div>
-                </li>
-                <li>
-                    <a class="uk-accordion-title" href>Item 3</a>
-                    <div class="uk-accordion-content">
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                </div>
+            </div>
+            <div>
+                <a onclick="calculateByResources();" class="uk-accordion-title" href><span class="uk-text-large">
+                        Когда получу нужное количество подшипников?
+                    </span></a>
+                <div class="uk-accordion-content">
+                    <div class="uk-margin" uk-grid>
+                        <div class="uk-width-1-2">
+                            <input value=0 type="number" id="inputResources" class="uk-input uk-width-1-1"
+                                placeholder="Нужное количество подшипников" onchange="calculateByResources()">
+                            <input id="range2" class="uk-range uk-width-1-1" type="range" value="0" min="0" max="2600"
+                                step="5"
+                                oninput="document.getElementById('inputResources').value = this.value; calculateByResources()">
+                        </div>
+                        <div class="uk-width-1-2">
+                            <div class="uk-background-muted uk-padding uk-text-large">
+                                <div id="b-result-1"></div>
+                                <div id="b-result-2"></div>
+                                <div id="b-result-3"></div>
+                                <div id="b-result-4"></div>
+                            </div>
+                        </div>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
+
 
             <div class="uk-child-width-1-1@l uk-child-width-1-1@s uk-text-center1 uk-grid-small uk-grid-match" uk-grid>
                 <div>
@@ -152,17 +143,7 @@
 
             </div>
 
-            <!-- Result modal -->
-            <div id="modal-result" uk-modal>
-                <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                    <button class="uk-modal-close-default" type="button" uk-close></button>
-                    <h2 id="result-title" class="uk-modal-title"></h2>
-                    <div id="result-body" class="uk-margin-top uk-text-large"></div>
-                    <p class="uk-text-right">
-                        <button class="uk-button uk-button-primary uk-modal-close" type="button">Понятно</button>
-                    </p>
-                </div>
-            </div>
+
         </main>
 
     </div>
