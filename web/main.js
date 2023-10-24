@@ -22,24 +22,53 @@ const FIRST_DAY_SCORE =
   WEEKLY_REWARD_ADD * WEEKLY_REWARD_ADD_Q +
   DAILY_SCORE;
 
+// функция стартует при перезагрузке страницы
 function start() {
-  days = today();
-  if (days > DURATION) {
-    document.getElementById("todayIs").innerHTML = `БП закончился`;
+  day = today();
+  //day = 230;
+  if (day > DURATION) {
+    document.getElementById(
+      "result-todayIs"
+    ).innerHTML = `<b>БП закончился</b>`;
   } else {
-    document.getElementById("inputLeftDays").value = days;
-    document.getElementById("range-inputLeftDays").value = days;
+    document.getElementById(
+      "result-todayIs"
+    ).innerHTML = `<b>${day}</b> дней с начала БП`;
+    document.getElementById("inputLeftDays").value = day;
+    document.getElementById("range-inputLeftDays").value = day;
     document.getElementById("inputMissDays").value = 0;
     document.getElementById("range-inputMissDays").value = 0;
     document.getElementById("result-needBuy").innerHTML = ``;
     onchangeDay();
-    document.getElementById(
-      "result-todayIs"
-    ).innerHTML = `<b>${days}</b> дней с начала БП`;
-    document.getElementById("result-daysLeft").innerHTML = `<b>${
-      DURATION - days
-    }</b> дней осталось`;
   }
+}
+
+function printDay(day) {
+  document.getElementById("inputLeftDays").value = day;
+  document.getElementById("range-inputLeftDays").value = day;
+  document.getElementById(
+    "result-todayIs"
+  ).innerHTML = `<b>${day}</b> дней с начала БП`;
+  document.getElementById("result-daysLeft").innerHTML = `<b>${
+    DURATION - day
+  }</b> дней осталось`;
+}
+function printScore(score) {
+  document.getElementById("result-score").innerHTML = `<b>${score}</b> очков`;
+}
+
+function printLevel(level) {
+  document.getElementById("inputLevel").value = level;
+  document.getElementById("range-inputLevel").value = level;
+  document.getElementById("result-level").innerHTML = `<b>${level}</b> уровень`;
+}
+
+function printResources(resources) {
+  document.getElementById("inputResources").value = resources;
+  document.getElementById("range-inputResources").value = resources;
+  document.getElementById(
+    "result-resources"
+  ).innerHTML = `<b>${resources}</b> подшипников`;
 }
 
 function onchangeDay() {
@@ -60,18 +89,7 @@ function onchangeDay() {
   weeks = Math.floor(inputDay / 7);
   day = inputDay - weeks * 7;
   document.getElementById("range-inputMissDays").max = inputDay;
-  document.getElementById("result-score").innerHTML = `<b>${score}</b> очков`;
-  document.getElementById("inputLevel").value = level;
-  document.getElementById("range-inputLevel").value = level;
-  document.getElementById("result-level").innerHTML = `<b>${level}</b> уровень`;
-  document.getElementById("inputResources").value = resources;
-  document.getElementById("range-inputResources").value = resources;
-  document.getElementById(
-    "result-todayIs"
-  ).innerHTML = `<b>${inputDay}</b> дней с начала БП`;
-  document.getElementById("result-daysLeft").innerHTML = `<b>${
-    DURATION - inputDay
-  }</b> дней осталось`;
+
   if (inputMissDay > 0) {
     document.getElementById(
       "result-daysMiss"
@@ -80,6 +98,18 @@ function onchangeDay() {
   if (inputMissDay <= 0) {
     document.getElementById("result-daysMiss").innerHTML = ``;
   }
+  needBuy = howManyBuy(inputLevel);
+  if (needBuy <= 0) {
+    document.getElementById("result-needBuy").innerHTML = ``;
+  } else if (needBuy > 0) {
+    document.getElementById(
+      "result-needBuy"
+    ).innerHTML = `<b>${needBuy}</b> уровней нужно докупить`;
+  }
+  printDay(inputDay);
+  printLevel(level);
+  printScore(score);
+  printResources(resources);
 }
 
 function onchangeMissDay() {
@@ -90,13 +120,21 @@ function onchangeLevel() {
   inputLevel = parseInt(document.getElementById("inputLevel").value);
   resources = resourcesByLevel(inputLevel);
   days = daysForLevel(inputLevel);
-  weeks = Math.floor(days / 7);
-  day = days - weeks * 7;
-  document.getElementById("inputLeftDays").value = days;
-  document.getElementById("range-inputLeftDays").value = days;
-  document.getElementById("inputResources").value = resources;
-  document.getElementById("range-inputResources").value = resources;
-  onchangeDay();
+  if (days > DURATION) days = DURATION;
+  // weeks = Math.floor(days / 7);
+  // day = days - weeks * 7;
+  printDay(days);
+  printLevel(inputLevel);
+  printResources(resources);
+  needBuy = howManyBuy(inputLevel);
+  if (needBuy <= 0) {
+    document.getElementById("result-needBuy").innerHTML = ``;
+  } else if (needBuy > 0) {
+    document.getElementById(
+      "result-needBuy"
+    ).innerHTML = `<b>${needBuy}</b> уровней нужно докупить`;
+  }
+  //  onchangeDay();
 }
 
 function onchangeResources() {
@@ -105,14 +143,12 @@ function onchangeResources() {
   needBuy = howManyBuy(level);
   //days = daysForLevel(level - paidLevel());
   days = daysForLevel(level);
-  weeks = Math.floor(days / 7);
-  day = days - weeks * 7;
-  document.getElementById("inputLeftDays").value = days;
-  document.getElementById("range-inputLeftDays").value = days;
-  document.getElementById("inputLevel").value = level;
-  document.getElementById("range-inputLevel").value = level;
-  document.getElementById("inputResources").value = resources;
-  document.getElementById("range-inputResources").value = resources;
+  if (days > DURATION) days = DURATION;
+  // weeks = Math.floor(days / 7);
+  // day = days - weeks * 7;
+  printDay(days);
+  printLevel(level);
+  printResources(resources);
   if (needBuy <= 0) {
     document.getElementById("result-needBuy").innerHTML = ``;
   } else if (needBuy > 0) {
@@ -120,6 +156,16 @@ function onchangeResources() {
       "result-needBuy"
     ).innerHTML = `<b>${needBuy}</b> уровней нужно докупить`;
   }
+}
+
+function onchangePaid() {
+  paid = paidLevel();
+  level = parseInt(document.getElementById("inputLevel").value);
+  resources = resourcesByLevel(level);
+  printDay(inputDay);
+  printLevel(level);
+  printScore(score);
+  printResources(resources);
 }
 
 function paidLevel() {
