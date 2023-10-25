@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Crossout BattlePass Calculator v2.0 by AsmuZ</title>
+	<meta name="description"
+		content="Онлайн расчет количества подшипников от уровня боевого пропуска в игре Crossout.">
+	<meta name="keywords" content="Crossout, уровни БП, подшипники, игра, расчет, уровень, боевой пропуск, легендакра">
+	<meta name="author" content="AsmuZ">
+	<meta http-equiv="Content-Language" content="ru">
+	<meta name="robots" content="index, follow">
+	<meta property="og:image" content="img/bg.jpg">
+	<link rel="icon" href="img/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/app.js" defer></script>
+	<script src="js/rain.js" defer></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.5/css/uikit.min.css">
+</head>
+
+<body onload="start()">
+	<!-- Yandex.Metrika counter -->
+	<script src="https://mc.yandex.ru/metrika/tag.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		(function (m, e, t, r, i, k, a) {
+			m[i] = m[i] || function () {(m[i].a = m[i].a || []).push(arguments)};
+			m[i].l = 1 * new Date();
+			for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) {return;} }
+			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+		})(window, document, "script", "https://mc.yandex.ru/watch/95254781", "ym");
+
+		ym(95254781, "init", {
+			clickmap: true,
+			trackLinks: true,
+			accurateTrackBounce: true,
+			webvisor: true
+		});
+	</script>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/95254781" style="position:absolute; left:-9999px;" alt="" /></div>
+	</noscript>
+	<!-- /Yandex.Metrika counter -->
+	<section class="layers">
+		<div class="layers__container">
+			<div class="layers__item layer-1" style="background-image: url(img/bg.jpg);"></div>
+			<div class="layers__item layer-3">
+				<main>
+					<div class="uk-overlay uk-overlay-default uk-padding uk-position-center">
+						<h1 class="uk-h2 uk-text-center" style="color: #777; font-weight: bold">Crossout BattlePass
+							Calculator
+							v2.0 by AsmuZ
+						</h1>
+						<div class="uk-accordion-content">
+							<div class="uk-margin" uk-grid>
+								<div class="uk-width-3-5@m">
+									<form id="paid_bp" class="uk-form-horizontal uk-margin">
+										<div class="uk-margin">
+											<div class="uk-form-label">Какой у тебя БП?</div>
+											<div class="uk-form-controls uk-form-controls-text">
+												<label><input onchange="onchangePaid()" class=" uk-radio" type="radio"
+														name="buy" value=0 checked>
+													Бесплатный</label><br />
+												<label><input onchange="onchangePaid()" class=" uk-radio" type="radio"
+														name="buy" value=1>
+													Обычный</label><br />
+												<label><input onchange="onchangePaid()" class=" uk-radio" type="radio"
+														name="buy" value=15>
+													Элитный</label>
+											</div>
+										</div>
+									</form>
+									<div class="uk-form-horizontal uk-margin">
+										<label class="uk-form-label" for="form-horizontal-text">Какой день от
+											начала?</label>
+										<div class="uk-form-controls">
+											<input value=0 type="number" id="inputLeftDays"
+												class="uk-form-small uk-input uk-width-1-1" placeholder="Сколько дней?"
+												oninput="document.getElementById('range-inputLeftDays').value = this.value; onchangeDay()">
+											<input id="range-inputLeftDays" class="uk-range uk-width-1-1" type="range"
+												value="0" min="0" max="119" step="1"
+												oninput="document.getElementById('inputLeftDays').value = this.value; onchangeDay()">
+										</div>
+
+									</div>
+									<div class="uk-form-horizontal uk-margin uk-hidden">
+										<label class="uk-form-label" for="form-horizontal-text">Сколько дней
+											пропущено?</label>
+										<div class="uk-form-controls">
+											<input value=0 type="number" id="inputMissDays"
+												class="uk-form-small uk-input uk-form-width-1-1"
+												placeholder="Количество дней"
+												oninput="document.getElementById('range-inputMissDays').value = this.value; onchangeMissDay()">
+											<input id="range-inputMissDays" class="uk-range uk-width-1-1" type="range"
+												value="0" min="0" max="100" step="1"
+												oninput="document.getElementById('inputMissDays').value = this.value; onchangeMissDay()">
+										</div>
+									</div>
+									<div class="uk-form-horizontal uk-margin">
+										<label class="uk-form-label" for="form-horizontal-text">Уровень БП</label>
+										<div class="uk-form-controls">
+											<input value=0 type="number" id="inputLevel"
+												class="uk-form-small uk-input uk-form-width-1-1"
+												placeholder="Количество дней"
+												oninput="document.getElementById('range-inputLevel').value = this.value; onchangeLevel()">
+											<input id="range-inputLevel" class="uk-range uk-width-1-1" type="range"
+												value="0" min="0" max="152" step="1"
+												oninput="document.getElementById('inputLevel').value = this.value; onchangeLevel()">
+										</div>
+									</div>
+									<div class="uk-form-horizontal uk-margin">
+										<label class="uk-form-label" for="form-horizontal-text">Подшипники</label>
+										<div class="uk-form-controls">
+											<input value=0 type="number" id="inputResources"
+												class="uk-form-small uk-input uk-form-width-1-1"
+												placeholder="Количество дней"
+												onchange="document.getElementById('range-inputResources').value = this.value; onchangeResources()">
+											<input id="range-inputResources" class="uk-range uk-width-1-1" type="range"
+												value="0" min="0" max="1960" step="10"
+												oninput="document.getElementById('inputResources').value = this.value; onchangeResources()">
+										</div>
+									</div>
+
+								</div>
+								<div class="uk-width-2-5@m">
+									<div class="uk-padding uk-text-big">
+										<div id="result-todayIs"></div>
+										<div id="result-daysLeft"></div>
+										<div id="result-daysMiss" class="uk-hidden"></div>
+										<div id="result-score" class="uk-hidden"></div>
+										<div id="result-level"></div>
+										<div id="result-resources"></div>
+										<div id="result-needBuy"></div>
+									</div>
+									<button class="uk-button uk-button-primary uk-width-1-1"
+										onclick="start()">Сбросить</button>
+<hr />
+<a class="uk-button uk-button-default uk-width-1-1" href="#comments" uk-scroll><b>Оставить комментарий</b></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+			<div class="layers__item layer-4">
+				<canvas class="rain"></canvas>
+			</div>
+		</div>
+	</section>
+	<section class="uk-container" id="comments">
+		<!-- Put this script tag to the <head> of your page -->
+		<script type="text/javascript" src="https://vk.com/js/api/openapi.js?169"></script>
+		<script type="text/javascript">
+			VK.init({apiId: 3431983, onlyWidgets: true});
+		</script>
+		<h3>Комментарии:</h3>
+		<!-- Put this div tag to the place, where the Comments block will be -->
+		<div id="vk_comments"></div>
+		<script type="text/javascript">
+			VK.Widgets.Comments("vk_comments", {limit: 20, attach: "*"});
+		</script>
+	</section>
+	<script src="js/config.js"></script>
+	<script src="js/calc.js"></script>
+	<script src="js/print.js"></script>
+	<script src="js/main.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.5/js/uikit.min.js"></script>
+</body>
+
+</html>

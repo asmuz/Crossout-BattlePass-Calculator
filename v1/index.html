@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossout BattlePass Calculator v1.3 by AsmuZ</title>
+    <title>Crossout BattlePass Calculator v1.4 by AsmuZ</title>
     <meta name="description"
         content="Crossout. Онлайн расчет количества подшипников и монет от уровня боевого пропуска.">
     <meta name="keywords" content="Crossout, уровни БП, подшипники, игра, расчет, уровень, боевой пропуск, легендакра">
@@ -42,15 +42,22 @@
         <header>
             <div class="uk-background-cover uk-height-large uk-panel uk-flex uk-flex-center uk-flex-bottom"
                 style="background-image: url(crout.jpg);">
-                <h1 class="uk-h1" style="color: #fff; font-weight: bold">Crossout BattlePass Calculator v1.3 by AsmuZ
+                <h1 class="uk-h1" style="color: #fff; font-weight: bold">Crossout BattlePass Calculator v1.4 by AsmuZ
                 </h1>
                 <br />
             </div>
             <h2 class="uk-text-center uk-margin-top" style="font-weight: bold">Онлайн-калькулятор расчёта количества
-                подшипников и монет от уровня боевого пропуска сезона "Новая высота"</h2>
+                подшипников от уровня боевого пропуска сезона "Новая высота"</h2>
         </header>
         <main>
             <div class="uk-child-width-1-1@l uk-child-width-1-1@s uk-text-center1 uk-grid-small uk-grid-match" uk-grid>
+                <div>
+                    <form id="paid_bp">
+                        <label><input type="radio" name="buy" value=0 checked="checked"> Не покупал</label><br />
+                        <label><input type="radio" name="buy" value=1> Обычный БП</label><br />
+                        <label><input type="radio" name="buy" value=15> Элитный БП</label>
+                    </form>
+                </div>
                 <div>
                     <div class="uk-card uk-card-default uk-card-small uk-card-body">
                         <div class="uk-card-header">
