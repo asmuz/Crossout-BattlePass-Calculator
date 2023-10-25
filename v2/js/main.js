@@ -72,6 +72,9 @@ function onchangeLevel() {
   paid = paidLevel();
   if (paid == 0) resources = resourcesForFree(inputLevel);
   else resources = resourcesByLevel(inputLevel);
+  if (paid == 0) document.getElementById("range-inputLevel").min = 0;
+  if (paid == 1) document.getElementById("range-inputLevel").min = 1;
+  if (paid == 15) document.getElementById("range-inputLevel").min = 15;
   days = daysForLevel(inputLevel);
   score = scoreByDay(days) - missScore;
 
