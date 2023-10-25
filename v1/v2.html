@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossout BattlePass Calculator v1.4 by AsmuZ</title>
+    <title>Crossout BattlePass Calculator v2.0 by AsmuZ</title>
     <meta name="description"
         content="Crossout. Онлайн расчет количества подшипников и монет от уровня боевого пропуска.">
     <meta name="keywords" content="Crossout, уровни БП, подшипники, игра, расчет, уровень, боевой пропуск, легендакра">
@@ -14,18 +14,37 @@
     <meta property="og:image" content="crout.jpg">
     <link rel="icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.5/css/uikit.min.css">
+    <style>
+        html {
+            background: url('bg.jpg') no-repeat center center;
+            min-height: 100%;
+            background-size: cover;
+        }
+
+        body {
+            min-height: 100%;
+        }
+
+        .uk-overlay-default {
+            background: rgba(222, 222, 222, .88);
+        }
+
+        input[type="range" i] {
+            color: -internal-light-dark(rgb(16, 16, 16), rgb(155, 155, 155));
+        }
+    </style>
 </head>
 
-<body onload="start()">
-
-    <div class="uk-container">
-
-        <main class="uk-background-muted uk-padding">
-
-            <div>
+<body onload="start()" id="demo-canvas">
+    <div class="uk-container1">
+        <main>
+            <div class="uk-overlay uk-overlay-default uk-padding uk-position-center">
+                <h1 class="uk-h2 uk-text-center" style="color: #777; font-weight: bold">Crossout BattlePass Calculator
+                    v2.0 by AsmuZ
+                </h1>
                 <div class="uk-accordion-content">
                     <div class="uk-margin" uk-grid>
-                        <div class="uk-width-1-2">
+                        <div class="uk-width-3-5@m">
                             <form id="paid_bp" class="uk-form-horizontal uk-margin">
                                 <div class="uk-margin">
                                     <div class="uk-form-label">Какой у тебя БП?</div>
@@ -45,8 +64,8 @@
                             <div class="uk-form-horizontal uk-margin">
                                 <label class="uk-form-label" for="form-horizontal-text">Какой день от начала?</label>
                                 <div class="uk-form-controls">
-                                    <input value=0 type="number" id="inputLeftDays" class="uk-input uk-width-1-1"
-                                        placeholder="Сколько дней?"
+                                    <input value=0 type="number" id="inputLeftDays"
+                                        class="uk-form-small uk-input uk-width-1-1" placeholder="Сколько дней?"
                                         oninput="document.getElementById('range-inputLeftDays').value = this.value; onchangeDay()">
                                     <input id="range-inputLeftDays" class="uk-range uk-width-1-1" type="range" value="0"
                                         min="0" max="119" step="1"
@@ -54,12 +73,12 @@
                                 </div>
 
                             </div>
-                            <div class="uk-form-horizontal uk-margin">
+                            <div class="uk-form-horizontal uk-margin uk-hidden">
                                 <label class="uk-form-label" for="form-horizontal-text">Сколько дней
                                     пропущено?</label>
                                 <div class="uk-form-controls">
-                                    <input value=0 type="number" id="inputMissDays" class="uk-input uk-form-width-1-1"
-                                        placeholder="Количество дней"
+                                    <input value=0 type="number" id="inputMissDays"
+                                        class="uk-form-small uk-input uk-form-width-1-1" placeholder="Количество дней"
                                         oninput="document.getElementById('range-inputMissDays').value = this.value; onchangeMissDay()">
                                     <input id="range-inputMissDays" class="uk-range uk-width-1-1" type="range" value="0"
                                         min="0" max="100" step="1"
@@ -69,8 +88,8 @@
                             <div class="uk-form-horizontal uk-margin">
                                 <label class="uk-form-label" for="form-horizontal-text">Уровень БП</label>
                                 <div class="uk-form-controls">
-                                    <input value=0 type="number" id="inputLevel" class="uk-input uk-form-width-1-1"
-                                        placeholder="Количество дней"
+                                    <input value=0 type="number" id="inputLevel"
+                                        class="uk-form-small uk-input uk-form-width-1-1" placeholder="Количество дней"
                                         oninput="document.getElementById('range-inputLevel').value = this.value; onchangeLevel()">
                                     <input id="range-inputLevel" class="uk-range uk-width-1-1" type="range" value="0"
                                         min="0" max="152" step="1"
@@ -80,54 +99,36 @@
                             <div class="uk-form-horizontal uk-margin">
                                 <label class="uk-form-label" for="form-horizontal-text">Подшипники</label>
                                 <div class="uk-form-controls">
-                                    <input value=0 type="number" id="inputResources" class="uk-input uk-form-width-1-1"
-                                        placeholder="Количество дней"
+                                    <input value=0 type="number" id="inputResources"
+                                        class="uk-form-small uk-input uk-form-width-1-1" placeholder="Количество дней"
                                         onchange="document.getElementById('range-inputResources').value = this.value; onchangeResources()">
                                     <input id="range-inputResources" class="uk-range uk-width-1-1" type="range"
                                         value="0" min="0" max="1960" step="10"
                                         oninput="document.getElementById('inputResources').value = this.value; onchangeResources()">
                                 </div>
                             </div>
-                            <button class="uk-button uk-button-primary uk-width-1-1" onclick="start()">Сбросить на
-                                сегодня</button>
 
                         </div>
-                        <div class="uk-width-1-2">
-                            <div class="uk-background-muted uk-padding uk-text-large">
+                        <div class="uk-width-2-5@m">
+                            <div class="uk-padding uk-text-big">
                                 <div id="result-todayIs"></div>
                                 <div id="result-daysLeft"></div>
-                                <div id="result-daysMiss"></div>
-                                <div id="result-score"></div>
+                                <div id="result-daysMiss" class="uk-hidden"></div>
+                                <div id="result-score" class="uk-hidden"></div>
                                 <div id="result-level"></div>
                                 <div id="result-resources"></div>
                                 <div id="result-needBuy"></div>
                             </div>
+                            <button class="uk-button uk-button-primary uk-width-1-1" onclick="start()">Сбросить</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="uk-accordion-content">
-                    <div class="uk-margin" uk-grid>
-                        <div class="uk-width-1-2">
-
-                        </div>
-                        <div class="uk-width-1-2">
-                            <div class="uk-background-muted uk-padding uk-text-large">
-                                <div id="b-result-1"></div>
-                                <div id="b-result-2"></div>
-                                <div id="b-result-3"></div>
-                                <div id="b-result-4"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </main>
-
     </div>
+    <script src="config.js"></script>
+    <script src="calc.js"></script>
+    <script src="print.js"></script>
     <script src="main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.5/js/uikit.min.js"></script>
 </body>
