@@ -89,7 +89,7 @@ function onchangeLevel() {
   } else if (needBuy > 0) {
     document.getElementById(
       "result-needBuy"
-    ).innerHTML = `<b>${needBuy}</b> уровней нужно докупить`;
+    ).innerHTML = `<b>${needBuy}</b> уровней докупить`;
   }
 }
 
