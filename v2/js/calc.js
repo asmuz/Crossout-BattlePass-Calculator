@@ -30,7 +30,7 @@ function calculateMaxLevel() {
 }
 
 function howManyBuy(needLevel) {
-  maxLevel = MAX_LEVEL_BY_SCORE + paidLevel();
+  maxLevel = MAX_LEVEL_BY_SCORE + paidLevel() + 1;
   needBuy = needLevel - maxLevel;
   if (needBuy > 0) return needBuy;
   else return 0;

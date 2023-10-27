@@ -9,7 +9,9 @@ function printDay(day) {
   }</b> дней осталось`;
 }
 function printScore(score) {
-  document.getElementById("result-score").innerHTML = `<b>${score}</b> очков`;
+  document.getElementById("result-score").innerHTML = `<b>${
+    score % LEVEL_SCORE
+  }</b> очков до уровня`;
 }
 
 function printLevel(level) {

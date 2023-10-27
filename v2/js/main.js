@@ -16,6 +16,7 @@ function start() {
     document.getElementById("range-inputMissDays").value = 0;
     document.getElementById("result-needBuy").innerHTML = ``;
     onchangeDay();
+    togglePlay();
   }
 }
 
@@ -34,7 +35,7 @@ function onchangeDay() {
     document.getElementById("inputMissDays").value = inputDay;
   }
   score = scoreByDay(inputDay) - inputMissDay * DAILY_SCORE;
-  level = levelByScore(score) + paid;
+  level = levelByScore(score) + paid + 1;
   if (paid == 0) resources = resourcesForFree(level);
   else resources = resourcesByLevel(level);
 
@@ -47,7 +48,7 @@ function onchangeDay() {
   if (inputMissDay <= 0) {
     document.getElementById("result-daysMiss").innerHTML = ``;
   }
-  needBuy = howManyBuy(inputLevel);
+  needBuy = howManyBuy(level);
   if (needBuy <= 0) {
     document.getElementById("result-needBuy").innerHTML = ``;
   } else if (needBuy > 0) {
@@ -72,9 +73,9 @@ function onchangeLevel() {
   paid = paidLevel();
   if (paid == 0) resources = resourcesForFree(inputLevel);
   else resources = resourcesByLevel(inputLevel);
-  if (paid == 0) document.getElementById("range-inputLevel").min = 0;
-  if (paid == 1) document.getElementById("range-inputLevel").min = 1;
-  if (paid == 15) document.getElementById("range-inputLevel").min = 15;
+  if (paid == 0) document.getElementById("range-inputLevel").min = 6;
+  if (paid == 1) document.getElementById("range-inputLevel").min = 7;
+  if (paid == 15) document.getElementById("range-inputLevel").min = 21;
   days = daysForLevel(inputLevel);
   score = scoreByDay(days) - missScore;
 

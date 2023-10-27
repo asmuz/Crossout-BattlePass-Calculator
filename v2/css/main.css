@@ -53,3 +53,19 @@
 .layer-6 {
   pointer-events: none;
 }
+.uk-overlay-custom {
+  background: rgba(0, 0, 0, 0.8);
+}
+.uk-overlay-custom * {
+  color: #eee;
+}
+.uk-overlay-custom label,
+.uk-form-label {
+  font-size: 16px;
+}
+.uk-overlay-custom input {
+  color: #000;
+  background-color: #aaa;
+  font-weight: bold;
+  text-align: center;
+}
