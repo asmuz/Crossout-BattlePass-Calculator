@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Crossout BattlePass Calculator v2.1 by AsmuZ</title>
+	<meta name="description" content="Онлайн расчет количества подшипников от уровня боевого пропуска в игре Crossout.">
+	<meta name="keywords" content="Crossout, уровни БП, подшипники, игра, расчет, уровень, боевой пропуск, легендакра">
+	<meta name="author" content="AsmuZ">
+	<meta http-equiv="Content-Language" content="ru">
+	<meta name="robots" content="index, follow">
+	<meta property="og:image" content="img/bg.jpg">
+	<link rel="icon" href="img/favicon.png" type="image/x-icon">
+	<!--<script src="js/app.js" defer></script>-->
+	<!--<script src="js/rain.js" defer></script>-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.5/css/uikit.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="start()">
+	<!-- Yandex.Metrika counter --
+	<script src="https://mc.yandex.ru/metrika/tag.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		(function (m, e, t, r, i, k, a) {
+			m[i] = m[i] || function () {(m[i].a = m[i].a || []).push(arguments)};
+			m[i].l = 1 * new Date();
+			for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) {return;} }
+			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+		})(window, document, "script", "https://mc.yandex.ru/watch/95254781", "ym");
+
+		ym(95254781, "init", {
+			clickmap: true,
+			trackLinks: true,
+			accurateTrackBounce: true,
+			webvisor: true
+		});
+	</script>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/95254781" style="position:absolute; left:-9999px;" alt="" /></div>
+	</noscript>
+	<!-- /Yandex.Metrika counter -->
+	<section class="layers">
+		<div class="layers__container">
+			<div class="layers__item layer-1" style="background-image: url(img/bg.jpg);"></div>
+			<div class="layers__item layer-3">
+				<main>
+					<div class="uk-overlay uk-overlay-custom uk-padding uk-position-center">
+						<h1 class="uk-h2 uk-text-center" style="font-weight: bold">Crossout BattlePass
+							Calculator
+							v2.1 by AsmuZ
+						</h1>
+						<div class="uk-accordion-content">
+							<form id="paid_bp" class="uk-form-horizontal uk-margin1">
+								<div class="uk-margin">
+									<div class="uk-form-label uk-text-bold">Какой у тебя БП?</div>
+									<div class="uk-form-controls uk-form-controls-text uk-text-bold">
+										<label style="padding-right: 10px"><input onchange="onchangeDay()"
+												class=" uk-radio" type="radio" name="buy" value=0 checked>
+											Бесплатный</label>
+										<label style="padding-right: 10px"><input onchange="onchangeDay()"
+												class=" uk-radio" type="radio" name="buy" value=1>
+											Обычный</label>
+										<label style="padding-right: 10px"><input onclick="onchangeDay()"
+												class=" uk-radio" type="radio" name="buy" value=15>
+											Элитный</label>
+									</div>
+								</div>
+							</form>
+							<div class="uk-margin" uk-grid>
+								<div class="uk-width-1-2@m">
+									<div class="uk-form-horizontal1 uk-margin1">
+										<label class="uk-form-label uk-text-bold" for="form-horizontal-text">Какой день?
+										</label>
+										<div class="uk-form-controls uk-grid-small" uk-grid>
+											<div class="uk-width-1-3">
+												<input value=1 type="number" id="input-day"
+													class="uk-form-small uk-input uk-width-1-1"
+													placeholder="Сколько дней?"
+													oninput="document.getElementById('range-day').value = this.value; onchangeDay()">
+											</div>
+											<div class="uk-width-2-3">
+												<input id="range-day" class="uk-range uk-width-1-1" type="range"
+													value="1" min="1" max="119" step="1"
+													oninput="document.getElementById('input-day').value = this.value; onchangeDay()">
+											</div>
+										</div>
+
+									</div>
+									<div class="uk-form-horizontal1 uk-margin1 uk-hidden1">
+										<label class="uk-form-label uk-text-bold" for="form-horizontal-text">Пропущено
+											дней</label>
+										<div class="uk-form-controls uk-grid-small" uk-grid>
+											<div class="uk-width-1-3">
+												<input value=0 type="number" id="input-skip"
+													class="uk-form-small uk-input uk-form-width-1-1"
+													placeholder="Количество дней"
+													oninput="document.getElementById('range-skip').value = this.value; onchangeDay()">
+											</div>
+											<div class="uk-width-2-3">
+												<input id="range-skip" class="uk-range uk-width-1-1" type="range"
+													value="0" min="0" max="100" step="1"
+													oninput="document.getElementById('input-skip').value = this.value; onchangeDay()">
+											</div>
+										</div>
+									</div>
+									<div class="uk-form-horizontal1 uk-margin1">
+										<label class="uk-form-label uk-text-bold" for="form-horizontal-text">Уровень
+											БП</label>
+										<div class="uk-form-controls uk-grid-small" uk-grid>
+											<div class="uk-width-1-3">
+												<input value=1 type="number" id="input-level"
+													class="uk-form-small uk-input uk-form-width-1-1"
+													placeholder="Количество дней"
+													oninput="document.getElementById('range-level').value = this.value; onchangeLevel()">
+											</div>
+											<div class="uk-width-2-3">
+												<input id="range-level" class="uk-range uk-width-1-1" type="range"
+													value="1" min="1" max="152" step="1"
+													oninput="document.getElementById('input-level').value = this.value; onchangeLevel()">
+											</div>
+										</div>
+									</div>
+									<div class="uk-form-horizontal1 uk-margin1">
+										<label class="uk-form-label uk-text-bold"
+											for="form-horizontal-text">Подшипники</label>
+										<div class="uk-form-controls uk-grid-small" uk-grid>
+											<div class="uk-width-1-3">
+												<input value=0 type="number" id="input-res"
+													class="uk-form-small uk-input uk-form-width-1-1"
+													placeholder="Количество дней"
+													onchange="document.getElementById('range-res').value = this.value; onchangeResources()">
+											</div>
+											<div class="uk-width-2-3">
+												<input id="range-res" class="uk-range uk-width-1-1" type="range"
+													value="0" min="0" max="1960" step="10"
+													oninput="document.getElementById('input-res').value = this.value; onchangeResources()">
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="uk-width-1-2@m">
+									<div class="uk-padding1 uk-text-lead">
+										<span id="result-day"></span>
+										<span id="result-skip"></span>
+										<div id="result-left"></div>
+
+										<div id="result-score"></div>
+										<div id="result-level"></div>
+										<div id="result-res"></div>
+										<div id="result-buy"></div>
+									</div>
+									<hr />
+									<div class="uk-child-width-1-2@m uk-grid-small" uk-grid>
+										<div>
+											<button class="uk-button uk-button-primary uk-width-1-1"
+												onclick="start()">Сбросить</button>
+										</div>
+										<div>
+											<a class="uk-button uk-button-default uk-width-1-1" href="#comments"
+												uk-scroll><img src="img/heart.png" style="width: 40px" /></a>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+			<div class="layers__item layer-4">
+				<canvas class="rain"></canvas>
+			</div>
+		</div>
+	</section>
+	<section class="uk-container" id="comments">
+		<!-- Put this script tag to the <head> of your page -->
+		<script type="text/javascript" src="https://vk.com/js/api/openapi.js?169"></script>
+		<script type="text/javascript">
+			VK.init({apiId: 3431983, onlyWidgets: true});
+		</script>
+		<h3>Комментарии:</h3>
+		<!-- Put this div tag to the place, where the Comments block will be -->
+		<div id="vk_comments"></div>
+		<script type="text/javascript">
+			VK.Widgets.Comments("vk_comments", {limit: 20, attach: "*"});
+		</script>
+	</section>
+	<script src="js/config.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/calculate.js"></script>
+	<script src="js/print.js"></script>
+	<!--	<script src="js/calc.js"></script>
+	<script src="js/main.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.5/js/uikit.min.js"></script>
+</body>
+
+</html>

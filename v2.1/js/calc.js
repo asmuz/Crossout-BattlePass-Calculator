@@ -30,7 +30,7 @@ function calculateMaxLevel() {
 }
 
 function howManyBuy(needLevel) {
-  maxLevel = MAX_LEVEL_BY_SCORE + paidLevel() + 1;
+  maxLevel = MAX_LEVEL_BY_SCORE + paidLevel();
   needBuy = needLevel - maxLevel;
   if (needBuy > 0) return needBuy;
   else return 0;
@@ -126,7 +126,7 @@ function scoreByDay(days) {
 // какой уровень будет при получении определенного количества опыта
 function levelByScore(score) {
   level = Math.floor(score / LEVEL_SCORE);
-  return level + 1; // +1 начинаем БП не с нулевого а первого уровня
+  return level;
 }
 
 function resourcesForFree(level) {
